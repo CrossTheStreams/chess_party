@@ -35,7 +35,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-group :test do
+gem 'devise'
+
+group :development, :test do
   gem 'rspec-rails', '~> 3.5.0'
 end
 
