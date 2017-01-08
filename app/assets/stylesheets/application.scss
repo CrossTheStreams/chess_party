@@ -1,4 +1,42 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "chessboard-0.3.0.min.css"
+@import "chessboard-0.3.0.min.css";
 
+.game_container {
+  margin: auto;
+  padding: 40px;
+  .table {
+    table-layout: fixed;
+    text-align: center;
+    th {
+      text-align: center;
+      &.color_header {
+        width: 100px;
+      }
+    }
+    td {
+      .rook {
+        width: 20px;
+        height: 20px;
+        background-size: 20px 20px;
+        margin: auto;
+        &.black {
+          background-image: url('/assets/chesspieces/wikipedia/bR.png')
+        }
+        &.white {
+          background-image: url('/assets/chesspieces/wikipedia/wR.png')
+        }
+      }
+      vertical-align: middle;
+    }
+  }
+}
+
+
+form > * {
+  display: block;
+}
+
+#board {
+  margin: auto;
+}

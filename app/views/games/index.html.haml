@@ -1,0 +1,26 @@
+.game_container
+  %table.table.table-striped.table-hover
+    %tr
+      %th
+      %th.color_header
+        Color
+      %th
+        Opponent 
+      %th
+        Start date
+      %th
+        Status
+    - @games.each do |game|
+      %tr
+        %td
+          .btn.btn-primary Play
+        %td
+          .rook.white
+        %td
+          %span 
+            = current_user.opponent_for_game(game).email
+        %td
+          %span
+            = distance_of_time_in_words(game.created_at, Time.current)
+        %td
+          %span Won
