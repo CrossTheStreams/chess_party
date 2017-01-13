@@ -1,7 +1,8 @@
-= form_tag "/games" do
-  = label_tag :opponent, "Opponent Email"
-  = text_field_tag :opponent
-  = select_tag :side_of_board, options_for_select([:white, :black])
-  = submit_tag "Send Invite and Start Game"
+= form_for :game, url: {action: :create} do |f|
+  = f.label :opponent, "Opponent Email"
+  = f.text_field :opponent
+  = f.label :side_of_board, "Side of Board"
+  = f.select :side_of_board, options_for_select([:white, :black])
+  = f.submit "Send invite and start game", class: "btn btn-default"
 
 
