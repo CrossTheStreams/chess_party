@@ -2,9 +2,20 @@
 @import "bootstrap";
 @import "chessboard-0.3.0.min.css";
 
-.game_container {
+#main {
   margin: auto;
-  padding: 40px;
+  padding: 0px 40px 40px 40px;
+}
+
+.notice, .alert {
+  margin: 0px 40px 0px 40px;
+}
+
+.create_game_button {
+  margin-bottom: 20px;
+}
+
+.game_container {
   .table {
     table-layout: fixed;
     text-align: center;
@@ -35,6 +46,7 @@
 
 form > * {
   display: block;
+  margin-bottom: 20px;
 }
 
 #board {
