@@ -15,8 +15,8 @@ class GamesController < ApplicationController
   end
 
   def create
-    color = if ["white", "black"].include?(game_params[:side_of_board])
-      game_params[:side_of_board] 
+    color = if ["white", "black"].include?(create_params[:side_of_board])
+      create_params[:side_of_board] 
     end
 
     if color.present?
@@ -25,11 +25,11 @@ class GamesController < ApplicationController
       else
         "white" 
       end
-      opponent = User.where(email: game_params[:opponent]).first
+      opponent = User.where(email: create_params[:opponent]).first
       opponent = if opponent.blank?
         # If opponent is new, for now, give a temporary pw.
         temp_password = SecureRandom.hex
-        user = User.create!(email: game_params[:opponent], password: temp_password, password_confirmation: temp_password)
+        user = User.create!(email: create_params[:opponent], password: temp_password, password_confirmation: temp_password)
       end
       if Game.create(:"#{color}_user" => current_user, :"#{opponent_color}_user" => opponent)
         flash[:notice] = "Game successfully created."
@@ -41,12 +41,36 @@ class GamesController < ApplicationController
   end
 
   def update
+    # TODO: service object for updating...
+    # maybe return the json for the response from the service object!
+    # TODO: also catch "not your turn" error in service object, to prevent users with bad intentions
+    @game = Game.find(update_params[:id])
+    if @game.fen == update_params[:old_fen]
+      if @game.update_attributes!(fen: update_params[:fen])
+	GameChannel.broadcast_to(
+	  @game,
+          game: @game
+	)
+      end
+    else
+      # TODO: Should be rendering an "error", not raising an exception (do this in service object)....
+      raise StandardError.new("move attempted outside of current turn")
+    end
+    respond_to do |format|
+      format.json do
+        render json: {game: @game}.to_json
+      end
+    end
   end
 
   private 
 
-  def game_params 
+  def create_params
     params.require(:game).permit(:opponent, :side_of_board)
+  end
+
+  def update_params
+    params.require(:game).permit(:id, :fen, :old_fen)
   end
 
 end

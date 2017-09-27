@@ -18,7 +18,7 @@
       - @games.each do |game|
         %tr
           %td
-            .btn.btn-primary Play
+            %a.btn.btn-primary{href: game_path(game)} Play
           %td
             .rook.white
           %td
@@ -28,4 +28,4 @@
             %span
               = distance_of_time_in_words(game.created_at, Time.current)
           %td
-            %span Won
+            %span Won (TODO: game state)

@@ -1,3 +1,6 @@
+-#= javascript_include_tag 'cable/subscriptions/game'
 = javascript_include_tag 'games'
 #board{style: "width: 400px"}
-
+:javascript
+  window.currentUserColor = "#{@game.color_for_user(current_user)}";
+  window.currentGame = #{@game.to_json};
