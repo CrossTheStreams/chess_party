@@ -10,8 +10,8 @@ $(document).ready(->
     draggable: true
     position: currentGame.fen
     onDrop: (from, to, piece, boardAfter, boardBefore, player) ->
-      #console.log("from : "+from)
-      #console.log("to : "+to)
+      console.log("from : "+from)
+      console.log("to : "+to)
       if chessEngine.turn() != currentUserColor
         console.log("not current user's turn")
         'snapback'
@@ -23,7 +23,11 @@ $(document).ready(->
             console.log("yo dawg, we in check now")
           if chessEngine.in_checkmate()
             console.log("awww shit, that's checkmate!")
-          window.chessParty.commitMove(chessEngine.fen())
+          window.chessParty.commitMove({
+            toMove: to,
+            fromMove: from,
+            newFen: chessEngine.fen()
+          })
         else
           window.chessEngine = new Chess(currentGame.fen)
           console.log('invalid move')
@@ -43,14 +47,16 @@ $(document).ready(->
       window.currentGame = gameObj
       window.chessEngine = new Chess(gameObj.fen)
 
-    commitMove: (newFen) ->
+    commitMove: (options) ->
       $.ajax('/games/'+currentGame.id, {
         method: 'PUT',
         data: {
           game: {
             id: currentGame.id,
-            fen: newFen,
+            fen: options.newFen,
             old_fen: currentGame.fen
+            to_move: options.toMove,
+            from_move: options.fromMove,
           }
         },
         success: (response) ->
@@ -62,8 +68,7 @@ $(document).ready(->
           # out-of-sync. If the update fails, alert the user and animate the board to 
           # it's previous position.
           alert("There was an unexpected error. The game may be out of sync. Try refreshing the page.")
-          window.board.position(currentGame.fen, true)
-          console.log('failed PUT to server')
+          window.board.position(currentGame.defen, true)
           console.log(response)
       })
   }

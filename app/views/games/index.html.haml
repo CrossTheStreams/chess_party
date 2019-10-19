@@ -20,7 +20,7 @@
           %td
             %a.btn.btn-primary{href: game_path(game)} Play
           %td
-            .rook.white
+            %div{class: "rook #{current_user_color_for_game(game)}"}
           %td
             %span 
               = current_user.opponent_for_game(game).email

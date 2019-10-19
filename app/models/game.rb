@@ -7,12 +7,4 @@ class Game < ApplicationRecord
     [white_user, black_user]
   end
 
-  def color_for_user(user)
-    if user.id == white_user_id
-      "w"
-    elsif user.id == black_user_id
-      "b"
-    end
-  end
-
 end

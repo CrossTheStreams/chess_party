@@ -41,20 +41,13 @@ class GamesController < ApplicationController
   end
 
   def update
-    # TODO: service object for updating...
-    # maybe return the json for the response from the service object!
-    # TODO: also catch "not your turn" error in service object, to prevent users with bad intentions
     @game = Game.find(update_params[:id])
     if @game.fen == update_params[:old_fen]
-      if @game.update_attributes!(fen: update_params[:fen])
-	GameChannel.broadcast_to(
-	  @game,
-          game: @game
-	)
+      if @game.update(fen: update_params[:fen])
+        GameChannel.broadcast_to(@game, game: @game)
       end
     else
-      # TODO: Should be rendering an "error", not raising an exception (do this in service object)....
-      raise StandardError.new("move attempted outside of current turn")
+      raise StandardError.new("not the current user's turn")
     end
     respond_to do |format|
       format.json do

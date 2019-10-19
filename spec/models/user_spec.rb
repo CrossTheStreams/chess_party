@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user, email: "lukeskywalker@rebels.com") }
 
-  context 'with a valid email_address and password' do
+  context 'with an email address and password' do
 
     it 'is valid' do 
       expect(user.email).to be_present

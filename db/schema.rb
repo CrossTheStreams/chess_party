@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161230191156) do
+ActiveRecord::Schema.define(version: 20190929043442) do
 
   create_table "games", force: :cascade do |t|
     t.integer  "white_user_id"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20161230191156) do
     t.string   "fen"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "state"
   end
 
   create_table "users", force: :cascade do |t|
